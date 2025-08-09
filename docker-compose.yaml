@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  suitecrm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: suitecrm
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html/SuiteCRM
+      - vendor_data:/var/www/html/vendor
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/SuiteCRM
+    working_dir: /var/www/html/SuiteCRM
+
+  mariadb:
+    image: mariadb:10.5
+    container_name: suitecrm-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: suitecrm
+      MYSQL_USER: suitecrm
+      MYSQL_PASSWORD: suitecrm_pass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: suitecrm-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+
+volumes:
+  mariadb_data:
+  vendor_data:

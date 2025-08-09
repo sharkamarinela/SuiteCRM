@@ -1,0 +1,16 @@
+Sat Aug  9 12:24:37 2025 [20][-none-][FATAL] Could not connect to DB server localhost as suitecrm. port : No such file or directory
+Sat Aug  9 12:26:39 2025 [18][-none-][FATAL] Could not connect to DB server localhost as suitecrm. port : No such file or directory
+Sat Aug  9 12:27:10 2025 [400][-none-][FATAL] Could not connect to DB server localhost as suitecrm. port : No such file or directory
+Sat Aug  9 12:28:18 2025 [402][-none-][FATAL] Could not connect to DB server localhost as suitecrm. port : No such file or directory
+Sat Aug  9 12:28:28 2025 [403][-none-][FATAL] Could not connect to DB server localhost as suitecrm. port : No such file or directory
+Sat Aug  9 12:32:41 2025 [23][1][SECURITY] OutboundEmail::checkSavePermissions - not logged in - skipping check
+Sat Aug  9 12:32:41 2025 [23][1][FATAL] User update error: Temp User is not retrieved at ID 1, boolean given
+Sat Aug  9 12:32:41 2025 [23][1][FATAL] Email address save error
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Invalid ext  logger_file_ext : ''.
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Setting logger_file_ext to '.log'.
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Setting logger_file_name to ''.
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Log file extension can't be blank.
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Setting logger_file_name to ''.
+Sat Aug  9 12:32:48 2025 [23][1][SECURITY] Log file extension can't be blank.
+Sat Aug  9 12:33:05 2025 [401][-none-][FATAL] SECURITY: User authentication for sharka123marinela@gmail.com failed
+Sat Aug  9 12:33:05 2025 [401][-none-][FATAL] FAILED LOGIN:attempts[1], ip[172.18.0.1], username[sharka123marinela@gmail.com]
