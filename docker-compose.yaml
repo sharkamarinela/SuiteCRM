@@ -68,6 +68,14 @@ services:
       POSTGRES_PASSWORD: keycloak_pass
     volumes:
       - keycloak_data:/var/lib/postgresql/data
+  simplesamlphp:
+    image: quay.io/simplesamlphp/simplesamlphp:latest
+    container_name: simplesamlphp
+    ports:
+      - "8083:80"
+    volumes:
+      - ./simplesaml/config:/var/simplesamlphp/config
+      - ./simplesaml/metadata:/var/simplesamlphp/metadata
 
 volumes:
   mariadb_data:
