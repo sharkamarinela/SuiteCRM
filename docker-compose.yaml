@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: suitecrm
+    restart: always
     depends_on:
       - mariadb
     ports:
