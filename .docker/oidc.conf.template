@@ -1,0 +1,31 @@
+# Rendered at runtime from env vars
+# OIDC talks to Keycloak over the docker network (service name: keycloak)
+OIDCProviderMetadataURL ${OIDC_ISSUER}
+OIDCClientID            ${OIDC_CLIENT_ID}
+OIDCClientSecret        ${OIDC_CLIENT_SECRET}
+OIDCRedirectURI         ${OIDC_REDIRECT_URI}
+OIDCCryptoPassphrase    ${OIDC_CRYPTO_PASSPHRASE}
+OIDCRemoteUserClaim     ${OIDC_REMOTE_USER_CLAIM}
+
+# Cache (optional, keeps tokens short-lived and refreshed)
+OIDCSessionType server-cache
+OIDCSessionInactivityTimeout 3600
+OIDCSessionMaxDuration 86400
+
+# Protect all of SuiteCRM
+<Location />
+  AuthType openid-connect
+  Require valid-user
+</Location>
+
+# Allow the callback URL to be reached without auth loop
+<Location /oidc>
+  Require all granted
+</Location>
+
+# Standard Apache bits
+<Directory "/var/www/html/SuiteCRM">
+  Options FollowSymLinks
+  AllowOverride All
+  Require all granted
+</Directory>

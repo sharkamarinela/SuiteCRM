@@ -16,6 +16,13 @@ services:
       - vendor_data:/var/www/html/vendor
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/SuiteCRM
+      # --- OIDC envs used by entrypoint ---
+      - OIDC_ISSUER=http://keycloak:8080/realms/suitecrm/.well-known/openid-configuration
+      - OIDC_CLIENT_ID=suitecrm-app
+      - OIDC_CLIENT_SECRET=aIIitQlojjXFfxwU89gfbWqb1uFLx6M2
+      - OIDC_REDIRECT_URI=http://localhost:8080/oidc/callback
+      - OIDC_CRYPTO_PASSPHRASE=7f9b2a59b4c23a6f3dbbb8e5a9125c23719a4f3d6f2818f8c38a5726b94c94e1
+      - OIDC_REMOTE_USER_CLAIM=marinelasharka
     working_dir: /var/www/html/SuiteCRM
 
   mariadb:
