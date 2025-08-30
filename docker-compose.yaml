@@ -1,5 +1,9 @@
 version: '3.9'
 
+networks:
+  suitecrm-network:
+    driver: bridge
+
 services:
   suitecrm:
     build:
@@ -9,6 +13,7 @@ services:
     restart: always
     depends_on:
       - mariadb
+      - keycloak
     ports:
       - "8080:80"
     volumes:
@@ -17,13 +22,16 @@ services:
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/SuiteCRM
       # --- OIDC envs used by entrypoint ---
-      - OIDC_ISSUER=http://keycloak:8080/realms/suitecrm/.well-known/openid-configuration
+      - OIDC_ISSUER=http://keycloak:8080/realms/suitecrm
       - OIDC_CLIENT_ID=suitecrm-app
       - OIDC_CLIENT_SECRET=aIIitQlojjXFfxwU89gfbWqb1uFLx6M2
       - OIDC_REDIRECT_URI=http://localhost:8080/oidc/callback
       - OIDC_CRYPTO_PASSPHRASE=7f9b2a59b4c23a6f3dbbb8e5a9125c23719a4f3d6f2818f8c38a5726b94c94e1
-      - OIDC_REMOTE_USER_CLAIM=marinelasharka
+      - OIDC_REMOTE_USER_CLAIM=preferred_username
+      - OIDC_SCOPE=openid email profile
     working_dir: /var/www/html/SuiteCRM
+    networks:
+      - suitecrm-network
 
   mariadb:
     image: mariadb:10.5
@@ -36,6 +44,8 @@ services:
       MYSQL_PASSWORD: suitecrm_pass
     volumes:
       - mariadb_data:/var/lib/mysql
+    networks:
+      - suitecrm-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -47,6 +57,8 @@ services:
       PMA_HOST: mariadb
       PMA_USER: root
       PMA_PASSWORD: rootpass
+    networks:
+      - suitecrm-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
@@ -60,10 +72,16 @@ services:
       KC_DB_PASSWORD: keycloak_pass
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8082
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT: false
     ports:
       - "8082:8080"
     depends_on:
       - keycloak-db
+    networks:
+      - suitecrm-network
 
   keycloak-db:
     image: postgres:15
@@ -75,6 +93,8 @@ services:
       POSTGRES_PASSWORD: keycloak_pass
     volumes:
       - keycloak_data:/var/lib/postgresql/data
+    networks:
+      - suitecrm-network
 
 volumes:
   mariadb_data:
